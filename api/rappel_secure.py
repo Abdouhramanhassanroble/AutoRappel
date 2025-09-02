@@ -16,15 +16,28 @@ import time
 # Charger les variables d'environnement
 load_dotenv()
 
-# Configuration des logs
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('email_logs.log'),
-        logging.StreamHandler()
-    ]
-)
+# Configuration des logs adaptée pour Vercel
+def setup_logging():
+    """Configure les logs selon l'environnement"""
+    if os.getenv("VERCEL_ENV"):  # Environnement Vercel
+        # En Vercel, on utilise seulement les logs de sortie
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[logging.StreamHandler()]
+        )
+    else:
+        # Environnement local avec fichier de log
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler('email_logs.log'),
+                logging.StreamHandler()
+            ]
+        )
+
+setup_logging()
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
@@ -42,7 +55,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Système de rate limiting
+# Système de rate limiting adapté pour Vercel
 class RateLimiter:
     def __init__(self):
         self.requests: Dict[str, List[float]] = {}

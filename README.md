@@ -9,6 +9,7 @@ Une API FastAPI sécurisée pour envoyer automatiquement des rappels par email a
 - 📊 **Monitoring et logs** détaillés
 - 🔒 **Sécurité renforcée** avec variables d'environnement
 - 🐳 **Déploiement Docker** prêt à l'emploi
+- ☁️ **Déploiement Vercel** avec Mangum
 - 📱 **API REST** complète avec documentation automatique
 
 ## 🚀 Démarrage Rapide
@@ -43,6 +44,31 @@ python main.py
 # OU avec uvicorn directement
 uvicorn api.rappel_secure:app --reload --host 0.0.0.0 --port 8000
 ```
+
+## ☁️ Déploiement Vercel
+
+### Prérequis
+- Compte Vercel
+- Node.js installé (pour Vercel CLI)
+
+### Déploiement automatique
+```bash
+# Utiliser le script de déploiement
+./deploy-vercel.sh
+
+# OU déployer manuellement
+vercel --prod
+```
+
+### Configuration Vercel
+1. **Variables d'environnement** : Configurez dans votre projet Vercel
+2. **Domaine personnalisé** : Optionnel, configurable dans Vercel
+3. **Monitoring** : Logs disponibles dans le dashboard Vercel
+
+### Structure Vercel
+- `vercel.json` : Configuration du déploiement
+- `api/vercel_handler.py` : Handler Mangum pour Vercel
+- `vercel.env.example` : Variables d'environnement Vercel
 
 ## 🔧 Configuration
 
@@ -154,7 +180,8 @@ curl http://localhost:8000/config
 ## 📊 Monitoring
 
 ### Logs
-- **Fichier :** `email_logs.log`
+- **Local :** `email_logs.log`
+- **Vercel :** Dashboard Vercel
 - **Format :** Horodatage + Niveau + Message
 - **Endpoint :** `/logs`
 
@@ -188,6 +215,11 @@ curl http://localhost:8000/logs
 - Attendre la fin de la fenêtre (1 minute)
 - Vérifier les statistiques : `/stats`
 
+#### Problèmes Vercel
+- Vérifier les variables d'environnement
+- Consulter les logs dans le dashboard Vercel
+- Vérifier la configuration `vercel.json`
+
 ## 🔒 Sécurité
 
 - ✅ **Aucune donnée sensible** dans le code
@@ -196,24 +228,29 @@ curl http://localhost:8000/logs
 - ✅ **Validation d'email** stricte
 - ✅ **Limites d'envoi** par heure
 - ✅ **Logs détaillés** pour l'audit
+- ✅ **Compatibilité Vercel** avec Mangum
 
 ## 📁 Structure du Projet
 
 ```
 AutoRappel/
 ├── api/
-│   └── rappel_secure.py    # Code principal sécurisé
-├── .env                    # Configuration (ignoré par git)
-├── env.example            # Exemple de configuration
-├── .gitignore             # Fichiers à ignorer
-├── requirements.txt        # Dépendances Python
-├── main.py                # Lanceur principal
-├── start.sh               # Script de démarrage
-├── test_app.py            # Script de test
-├── docker-compose.yml     # Configuration Docker
-├── Dockerfile             # Image Docker
-├── README.md              # Ce fichier
-└── README_SECURE.md       # Documentation détaillée
+│   ├── rappel_secure.py      # Code principal sécurisé
+│   └── vercel_handler.py     # Handler Vercel avec Mangum
+├── .env                      # Configuration (ignoré par git)
+├── env.example              # Exemple de configuration
+├── vercel.env.example       # Variables Vercel
+├── .gitignore               # Fichiers à ignorer
+├── requirements.txt          # Dépendances Python
+├── main.py                  # Lanceur principal
+├── start.sh                 # Script de démarrage
+├── deploy-vercel.sh         # Script de déploiement Vercel
+├── test_app.py              # Script de test
+├── docker-compose.yml       # Configuration Docker
+├── Dockerfile               # Image Docker
+├── vercel.json              # Configuration Vercel
+├── README.md                # Ce fichier
+└── README_SECURE.md         # Documentation détaillée
 ```
 
 ## 🤝 Contribution
@@ -234,7 +271,8 @@ Ce projet est sous licence MIT.
 - 🔍 **Logs :** http://localhost:8000/logs
 - 📊 **Statut :** http://localhost:8000/health
 - 🐛 **Issues :** Ouvrir une issue sur GitHub
+- ☁️ **Vercel :** Dashboard de votre projet
 
 ---
 
-**🎯 AutoRappel est maintenant prêt à envoyer vos rappels !**
+**🎯 AutoRappel est maintenant prêt à envoyer vos rappels localement et sur Vercel !**

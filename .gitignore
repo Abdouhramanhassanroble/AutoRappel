@@ -67,3 +67,4 @@ tmp/
 # Fichiers de configuration sensibles
 config.json
 secrets.json
+.vercel
